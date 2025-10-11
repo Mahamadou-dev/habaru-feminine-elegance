@@ -47,11 +47,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const root = document.documentElement;
     const fontMap = {
-      playfair: "Playfair Display",
-      cormorant: "Cormorant Garamond",
-      inter: "Inter",
+      playfair: { display: "Playfair Display", body: "Inter" },
+      cormorant: { display: "Cormorant Garamond", body: "Inter" },
+      inter: { display: "Inter", body: "Inter" },
     };
-    root.style.setProperty("--font-display", fontMap[fontFamily]);
+    root.style.setProperty("--font-display", fontMap[fontFamily].display);
+    root.style.setProperty("--font-body", fontMap[fontFamily].body);
     localStorage.setItem("fontFamily", fontFamily);
   }, [fontFamily]);
 
