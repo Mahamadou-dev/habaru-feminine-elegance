@@ -15,6 +15,20 @@ const Navigation = () => {
   
   const isActive = (path: string) => location.pathname === path;
   
+  const colorThemes = [
+    { id: "rose" as const, name: "Rose Pastel", color: "bg-[hsl(350,85%,75%)]" },
+    { id: "lavender" as const, name: "Lavande", color: "bg-[hsl(280,60%,70%)]" },
+    { id: "beige" as const, name: "Beige Chaleureux", color: "bg-[hsl(35,45%,65%)]" },
+    { id: "emerald" as const, name: "Émeraude", color: "bg-[hsl(160,60%,60%)]" },
+    { id: "ocean" as const, name: "Océan", color: "bg-[hsl(220,60%,60%)]" },
+  ];
+
+  const fonts = [
+    { id: "playfair" as const, name: "Playfair Display", className: "font-display" },
+    { id: "cormorant" as const, name: "Cormorant Garamond", className: "font-serif-alt" },
+    { id: "inter" as const, name: "Inter", className: "font-sans" },
+  ];
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card shadow-soft">
       <div className="container mx-auto px-4 py-4">
@@ -72,25 +86,17 @@ const Navigation = () => {
                   <Palette className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="glass-card">
-                <DropdownMenuItem onClick={() => setColorTheme("rose")}>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 rounded-full bg-[hsl(350,85%,75%)]" />
-                    <span>Rose Pastel</span>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setColorTheme("lavender")}>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 rounded-full bg-[hsl(280,60%,70%)]" />
-                    <span>Lavande</span>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setColorTheme("beige")}>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 rounded-full bg-[hsl(35,45%,65%)]" />
-                    <span>Beige Chaleureux</span>
-                  </div>
-                </DropdownMenuItem>
+              <DropdownMenuContent align="end" className="glass-card min-w-[180px]">
+                {colorThemes.map((themeOption) => (
+                  <DropdownMenuItem 
+                    key={themeOption.id} 
+                    onClick={() => setColorTheme(themeOption.id)}
+                    className="flex items-center space-x-2"
+                  >
+                    <div className={`w-4 h-4 rounded-full ${themeOption.color}`} />
+                    <span>{themeOption.name}</span>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
             
@@ -100,16 +106,16 @@ const Navigation = () => {
                   <Type className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="glass-card">
-                <DropdownMenuItem onClick={() => setFontFamily("playfair")}>
-                  <span className="font-display">Playfair Display</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFontFamily("cormorant")}>
-                  <span className="font-serif">Cormorant Garamond</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFontFamily("inter")}>
-                  <span className="font-sans">Inter</span>
-                </DropdownMenuItem>
+              <DropdownMenuContent align="end" className="glass-card min-w-[200px]">
+                {fonts.map((font) => (
+                  <DropdownMenuItem 
+                    key={font.id} 
+                    onClick={() => setFontFamily(font.id)}
+                    className={font.className}
+                  >
+                    {font.name}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
