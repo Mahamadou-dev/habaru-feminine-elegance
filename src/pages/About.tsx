@@ -76,7 +76,7 @@ const About = (): JSX.Element => {
                 <div className="relative aspect-square rounded-3xl overflow-hidden shadow-soft">
                   <img
                     src={portrait}
-                    alt="Portrait d'Emma"
+                    alt="Portrait d'Habaru"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent"></div>
@@ -96,7 +96,7 @@ const About = (): JSX.Element => {
                 <div>
                   <span className="text-primary font-semibold text-sm uppercase tracking-wider">Bienvenue</span>
                   <h2 className="text-4xl font-display font-bold mt-2 mb-4">
-                    Bonjour, je suis <span className="text-primary">Emma</span>
+                    Bonjour, je suis <span className="text-primary">Habaru</span>
                   </h2>
                 </div>
                 
@@ -197,7 +197,7 @@ const About = (): JSX.Element => {
               
               <div className="text-center mt-12">
                 <p className="font-display text-2xl text-white/80 mb-2">Avec tendresse,</p>
-                <p className="font-display text-4xl font-bold text-white">Emma</p>
+                <p className="font-display text-4xl font-bold text-white">Habaru</p>
               </div>
             </div>
           </div>
