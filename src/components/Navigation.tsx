@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Moon, Sun, Palette, Type, Menu, X, Home, BookOpen, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,41 @@ const Navigation = () => {
     { path: "/blog", label: "Blog", icon: BookOpen },
     { path: "/about", label: "À propos", icon: User },
   ];
+
+  // Gestion du scroll quand le menu mobile est ouvert
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      // Bloquer le scroll du body
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      // Réactiver le scroll
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
+    // Cleanup
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Fermer le menu quand la route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <>
@@ -141,7 +176,7 @@ const Navigation = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={toggleMobileMenu}
                 className="rounded-full hover:bg-primary/10 md:hidden"
                 aria-label="Menu principal"
               >
@@ -157,8 +192,8 @@ const Navigation = () => {
 
         {/* Menu mobile overlay */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 glass-card border-t border-glass-border shadow-elegant backdrop-blur-sm">
-            <div className="container mx-auto px-4 py-6">
+          <div className="md:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-lg z-40 overflow-y-auto">
+            <div className="container mx-auto px-4 py-6 min-h-full">
               {/* Navigation mobile */}
               <nav className="space-y-4 mb-8">
                 {navItems.map((item) => {
@@ -167,7 +202,7 @@ const Navigation = () => {
                     <Link
                       key={item.path}
                       to={item.path}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={closeMobileMenu}
                       className={`flex items-center space-x-3 p-4 rounded-2xl transition-all duration-300 ${
                         isActive(item.path)
                           ? "gradient-primary text-white shadow-soft"
@@ -182,7 +217,7 @@ const Navigation = () => {
               </nav>
 
               {/* Contrôles de thème dans le menu mobile */}
-              <div className="space-y-6">
+              <div className="space-y-6 pb-8">
                 {/* Sélecteur de thème de couleur */}
                 <div className="space-y-3">
                   <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
@@ -194,7 +229,7 @@ const Navigation = () => {
                         key={themeOption.id}
                         onClick={() => {
                           setColorTheme(themeOption.id);
-                          setIsMobileMenuOpen(false);
+                          closeMobileMenu();
                         }}
                         className={`flex flex-col items-center space-y-2 p-3 rounded-xl transition-all ${
                           colorTheme === themeOption.id
@@ -220,7 +255,7 @@ const Navigation = () => {
                         key={font.id}
                         onClick={() => {
                           setFontFamily(font.id);
-                          setIsMobileMenuOpen(false);
+                          closeMobileMenu();
                         }}
                         className={`w-full text-left p-3 rounded-xl transition-all ${
                           fontFamily === font.id
@@ -236,7 +271,10 @@ const Navigation = () => {
 
                 {/* Bouton mode sombre/clair */}
                 <Button
-                  onClick={toggleTheme}
+                  onClick={() => {
+                    toggleTheme();
+                    closeMobileMenu();
+                  }}
                   className="w-full rounded-xl gradient-primary text-white shadow-soft hover:shadow-elegant transition-all"
                 >
                   {theme === "dark" ? (
@@ -257,13 +295,7 @@ const Navigation = () => {
         )}
       </nav>
 
-      {/* Overlay pour fermer le menu */}
-      {isMobileMenuOpen && (
-        <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
+      {/* Overlay pour fermer le menu - Maintenant intégré dans le menu fixe */}
     </>
   );
 };
