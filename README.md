@@ -1,73 +1,127 @@
-# Welcome to your Lovable project
+# 📰 HabaruBlog
 
-## Project info
+> **HabaruBlog** est un **blog portfolio moderne et minimaliste**, développé avec **Next.js** et **Tailwind CSS**, destiné à partager des articles, des projets et des informations personnelles de manière professionnelle.
+> Il comprend trois sections principales : **Accueil**, **Blog**, et **À propos**.
 
-**URL**: https://lovable.dev/projects/efa6dfdf-84aa-4b96-92a6-185ee32d4687
+---
 
-## How can I edit this code?
+## 🚀 Fonctionnalités principales
 
-There are several ways of editing your application.
+* 🌐 **Page d’accueil (Home)** – Présentation personnelle ou du projet, avec un aperçu du contenu récent.
+* ✍️ **Section Blog** – Liste et lecture d’articles au format Markdown, gérés localement ou depuis une source CMS.
+* 👤 **Page À propos (About)** – Brève biographie, parcours, compétences et liens vers les réseaux sociaux.
+* ⚡ **Performances optimisées** – Développé avec **Next.js 14+**, **Bun**, et **TailwindCSS**.
+* 📱 **Design responsive** – S’adapte à toutes les tailles d’écran.
+* 🔍 **Optimisation SEO de base** – Balises meta, sitemap, et structure sémantique HTML claire.
+* ☁️ **Déploiement facile** – Compatible avec **Vercel** et **Netlify**.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/efa6dfdf-84aa-4b96-92a6-185ee32d4687) and start prompting.
+## 🏗️ Stack technique
 
-Changes made via Lovable will be committed automatically to this repo.
+| Catégorie               | Technologie utilisée                     |
+| ----------------------- | ---------------------------------------- |
+| Framework Frontend      | [Next.js](https://nextjs.org/)           |
+| Langage                 | TypeScript / JavaScript                  |
+| CSS Framework           | [Tailwind CSS](https://tailwindcss.com/) |
+| Gestionnaire de paquets | [Bun](https://bun.sh/)                   |
+| Rendu Markdown          | next-mdx, gray-matter                    |
+| Déploiement             | Vercel / Netlify                         |
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## ⚙️ Installation et configuration
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1️⃣ Cloner le dépôt
 
-Follow these steps:
+```bash
+git clone https://github.com/<ton-utilisateur>/HabaruBlog.git
+cd HabaruBlog
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 2️⃣ Installer les dépendances
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Si tu utilises **Bun** :
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+bun install
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Ou avec **npm** :
+
+```bash
+npm install
+```
+
+### 3️⃣ Lancer le projet en local
+
+```bash
+bun run dev
+```
+
+ou
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+👉 Le projet sera accessible sur :
+**[http://localhost:3000](http://localhost:3000)**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 🧠 SEO et optimisation
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Les sites déployés sur **Vercel** ou **Netlify** ont parfois une faible visibilité SEO **si mal configurés**.
+Voici les solutions recommandées :
 
-## What technologies are used for this project?
 
-This project is built with:
+4. **Partager sur les réseaux sociaux** pour générer du trafic et du référencement naturel (backlinks).
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 📦 Déploiement
 
-Simply open [Lovable](https://lovable.dev/projects/efa6dfdf-84aa-4b96-92a6-185ee32d4687) and click on Share -> Publish.
+### 🔹 Sur **Vercel**
 
-## Can I connect a custom domain to my Lovable project?
+1. Connecte ton compte GitHub à [Vercel](https://vercel.com/).
+2. Clique sur **“New Project”**, puis importe le repo **HabaruBlog**.
+3. Vercel détectera automatiquement **Next.js** et lancera le déploiement.
 
-Yes, you can!
+### 🔹 Sur **Netlify**
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Connecte ton repo à [Netlify](https://app.netlify.com/).
+2. Build command :
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+   ```
+   bun run build
+   ```
+3. Publish directory :
+
+   ```
+   .next
+   ```
+
+---
+
+## ✨ Personnalisation
+
+* 🧩 Modifier `about.tsx` pour personnaliser ta biographie.
+* 📝 Ajouter de nouveaux articles dans le dossier `posts/`.
+* 🎨 Modifier les couleurs dans `tailwind.config.js`.
+* 🔗 Ajouter tes liens GitHub, LinkedIn, etc., dans le footer.
+
+---
+
+## 🧾 Licence
+
+Ce projet est sous licence **MIT** – tu peux le réutiliser, le modifier et le distribuer librement avec attribution.
+
+---
+
+## 👨🏽‍💻 Auteur
+
+**Amadou Habou GREMAH Mahamadou**
+📍 Développeur web & étudiant en génie logiciel
+🌐 [Portfolio](https://habarublog.vercel.app)
+✉️ Contact : gremah.tech@gmai
