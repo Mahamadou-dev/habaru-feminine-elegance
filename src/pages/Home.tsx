@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import BlogCard from "@/components/BlogCard";
 import { ArrowRight, Star, Users, TrendingUp, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
+import { usePosts } from "@/hooks/usePosts";
+import { subscriberService } from "@/services/subscriberService";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 import heroImage from "@/assets/hero-home.jpg";
-import blog1 from "@/assets/blog-1.jpg";
-import blog2 from "@/assets/blog-2.jpg";
-import blog3 from "@/assets/blog-3.jpg";
+
 
 interface StatItem {
   icon: LucideIcon;
@@ -27,38 +29,11 @@ interface BlogPost {
 }
 
 const Home = (): JSX.Element => {
-  const featuredPosts: BlogPost[] = [
-    {
-      id: 1,
-      title: "Les rituels de beauté pour une peau rayonnante",
-      excerpt: "Découvrez mes secrets pour une routine de soin douce et efficace, adaptée aux peaux sensibles. Des produits naturels aux techniques ancestrales.",
-      image: blog1,
-      category: "Beauté",
-      date: "15 Mars 2025",
-      readTime: "5 min",
-      featured: true
-    },
-    {
-      id: 2,
-      title: "Mode printemps : les tendances qui nous font rêver",
-      excerpt: "Cette saison, on mise sur la douceur avec des tons pastel et des matières fluides. Découvrez comment adopter ces tendances avec élégance.",
-      image: blog2,
-      category: "Mode",
-      date: "12 Mars 2025",
-      readTime: "4 min",
-      featured: true
-    },
-    {
-      id: 3,
-      title: "Créer un espace cocooning chez soi",
-      excerpt: "Transformez votre intérieur en havre de paix avec ces astuces déco minimalistes. Ambiance douce et chaleureuse garantie.",
-      image: blog3,
-      category: "Lifestyle",
-      date: "8 Mars 2025",
-      readTime: "6 min",
-      featured: true
-    },
-  ];
+  // Récupérer les posts featured depuis Appwrite
+  const { data: allPosts, isLoading } = usePosts({ published: true });
+
+  const featuredPosts = allPosts?.filter(post => post.featured).slice(0, 3) || [];
+
 
   const stats: StatItem[] = [
     { icon: BookOpen, number: "150+", label: "Articles Publiés" },
@@ -78,7 +53,7 @@ const Home = (): JSX.Element => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-background/40 via-background/30 to-background/90" />
-          
+
           {/* Effets de particules */}
           <div className="absolute inset-0 opacity-30">
             {[...Array(20)].map((_, i) => (
@@ -95,20 +70,20 @@ const Home = (): JSX.Element => {
             ))}
           </div>
         </div>
-        
+
         <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in">
           <div className="inline-flex items-center space-x-2 glass-card rounded-2xl px-6 py-3 mb-8 border border-glass-border shadow-soft">
             <Star className="h-5 w-5 text-primary" fill="currentColor" />
             <span className="text-sm font-semibold text-primary">Nouveaux articles chaque semaine</span>
           </div>
-          
+
           <h1 className="text-6xl md:text-8xl font-display font-bold mb-8 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight">
             Habaru Blog
           </h1>
           <p className="text-2xl md:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
             Votre espace de <span className="text-primary font-semibold">douceur</span> dédié à la beauté, au bien-être et à l'inspiration au quotidien
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/blog">
               <Button className="gradient-primary text-white rounded-2xl px-10 py-7 text-lg font-semibold shadow-elegant hover:shadow-2xl hover:scale-105 transition-all duration-300">
@@ -123,7 +98,7 @@ const Home = (): JSX.Element => {
             </Link>
           </div>
         </div>
-        
+
         {/* Scroll indicator amélioré */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="flex flex-col items-center space-y-2">
@@ -139,7 +114,7 @@ const Home = (): JSX.Element => {
       <section className="container mx-auto px-4 py-20 -mt-20 relative z-20">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
-            <div 
+            <div
               key={index}
               className="glass-card rounded-3xl p-8 text-center border border-glass-border shadow-soft hover:shadow-elegant transition-all duration-500 hover:-translate-y-2 animate-fade-in"
               style={{ animationDelay: `${index * 0.1}s` }}
@@ -170,17 +145,46 @@ const Home = (): JSX.Element => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {featuredPosts.map((post, index) => (
-            <div
-              key={post.id}
-              className="animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <BlogCard {...post} />
-            </div>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="glass-card rounded-3xl overflow-hidden shadow-soft border border-glass-border animate-pulse">
+                <div className="w-full h-64 bg-muted"></div>
+                <div className="p-6 space-y-4">
+                  <div className="h-4 bg-muted rounded w-3/4"></div>
+                  <div className="h-4 bg-muted rounded w-1/2"></div>
+                  <div className="h-20 bg-muted rounded"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {featuredPosts.map((post, index) => (
+              <div
+                key={post.$id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <BlogCard
+                  id={parseInt(post.$id.substring(0, 8), 16)}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  image={post.imageUrl || ''}
+                  category={post.category}
+                  date={new Date(post.$createdAt).toLocaleDateString('fr-FR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                  readTime="5 min"
+                  featured={post.featured}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
 
         <div className="text-center">
           <Link to="/blog">
@@ -194,43 +198,103 @@ const Home = (): JSX.Element => {
 
       {/* CTA Section améliorée */}
       <section className="container mx-auto px-4 py-20">
-        <div className="relative rounded-3xl p-16 gradient-secondary shadow-elegant overflow-hidden">
-          {/* Background pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2"></div>
-          </div>
-          
-          <div className="relative z-10 text-center">
-            <div className="inline-flex items-center space-x-2 glass-card rounded-2xl px-6 py-3 mb-8 border border-white/20">
-              <Star className="h-5 w-5 text-white" fill="currentColor" />
-              <span className="text-white font-semibold">Rejoignez-nous</span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-white">
-              Rejoignez la Communauté Habaru
-            </h2>
-            <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Recevez chaque semaine des inspirations, des conseils beauté exclusifs et des moments de douceur directement dans votre boîte mail
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
-              <Input 
-                type="email" 
-                placeholder="Votre email" 
-                className="rounded-2xl px-6 py-4 glass-card border-white/20 text-white placeholder-white/60 focus:border-white"
-              />
-              <Button className="bg-white text-primary hover:bg-white/90 rounded-2xl px-8 py-4 text-lg font-semibold shadow-soft hover:shadow-elegant transition-all">
-                S'inscrire
-              </Button>
-            </div>
-            
-            <p className="text-white/70 text-sm mt-4">
-              ✨ Sans spam, désinscription à tout moment
-            </p>
-          </div>
-        </div>
+        <NewsletterSection />
       </section>
+    </div>
+  );
+};
+
+// Newsletter Section Component
+const NewsletterSection: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast({
+        title: 'Email invalide',
+        description: 'Veuillez entrer une adresse email valide',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await subscriberService.subscribe(email);
+
+      if (result.success) {
+        toast({
+          title: 'Inscription réussie !',
+          description: result.message,
+        });
+        setEmail('');
+      } else {
+        toast({
+          title: 'Erreur',
+          description: result.message,
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Erreur',
+        description: 'Une erreur est survenue. Veuillez réessayer.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="relative rounded-3xl p-16 gradient-secondary shadow-elegant overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2"></div>
+      </div>
+
+      <div className="relative z-10 text-center">
+        <div className="inline-flex items-center space-x-2 glass-card rounded-2xl px-6 py-3 mb-8 border border-white/20">
+          <Star className="h-5 w-5 text-white" fill="currentColor" />
+          <span className="text-white font-semibold">Rejoignez-nous</span>
+        </div>
+
+        <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-white">
+          Rejoignez la Communauté Habaru
+        </h2>
+        <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Recevez chaque semaine des inspirations, des conseils beauté exclusifs et des moments de douceur directement dans votre boîte mail
+        </p>
+
+        <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+          <Input
+            type="email"
+            placeholder="Votre email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="rounded-2xl px-6 py-4 glass-card border-white/20 text-white placeholder-white/60 focus:border-white"
+            disabled={isSubmitting}
+            required
+          />
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="bg-white text-primary hover:bg-white/90 rounded-2xl px-8 py-4 text-lg font-semibold shadow-soft hover:shadow-elegant transition-all"
+          >
+            {isSubmitting ? 'Inscription...' : "S'inscrire"}
+          </Button>
+        </form>
+
+        <p className="text-white/70 text-sm mt-4">
+          ✨ Sans spam, désinscription à tout moment
+        </p>
+      </div>
     </div>
   );
 };
