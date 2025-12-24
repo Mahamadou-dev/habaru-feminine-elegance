@@ -2,9 +2,10 @@ import { type FC } from "react";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface BlogCardProps {
-  id: number;
+  id: string;
   title: string;
   excerpt: string;
   image: string;
@@ -16,6 +17,7 @@ interface BlogCardProps {
 }
 
 const BlogCard: FC<BlogCardProps> = ({
+  id,
   title,
   excerpt,
   image,
@@ -36,7 +38,7 @@ const BlogCard: FC<BlogCardProps> = ({
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
           </div>
-          
+
           <div className="flex-1 flex flex-col justify-between py-2">
             <div>
               <div className="flex items-center gap-3 mb-3">
@@ -49,16 +51,16 @@ const BlogCard: FC<BlogCardProps> = ({
                   </Badge>
                 )}
               </div>
-              
+
               <h3 className="text-2xl font-display font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
                 {title}
               </h3>
-              
+
               <p className="text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
                 {excerpt}
               </p>
             </div>
-            
+
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
@@ -70,11 +72,13 @@ const BlogCard: FC<BlogCardProps> = ({
                   {readTime}
                 </div>
               </div>
-              
-              <Button variant="ghost" size="sm" className="rounded-full group-hover:bg-primary group-hover:text-white transition-all">
-                Lire
-                <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
+
+              <Link to={`/post/${id}`}>
+                <Button variant="ghost" size="sm" className="rounded-full group-hover:bg-primary group-hover:text-white transition-all">
+                  Lire
+                  <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -104,7 +108,7 @@ const BlogCard: FC<BlogCardProps> = ({
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
-      
+
       <div className="p-6">
         <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
           <div className="flex items-center gap-1">
@@ -117,19 +121,21 @@ const BlogCard: FC<BlogCardProps> = ({
             {readTime}
           </div>
         </div>
-        
+
         <h3 className="text-xl font-display font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
           {title}
         </h3>
-        
+
         <p className="text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
           {excerpt}
         </p>
-        
-        <Button variant="ghost" className="w-full rounded-2xl group-hover:bg-primary group-hover:text-white transition-all">
-          Lire l'article
-          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-        </Button>
+
+        <Link to={`/post/${id}`}>
+          <Button variant="ghost" className="w-full rounded-2xl group-hover:bg-primary group-hover:text-white transition-all">
+            Lire l'article
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </Link>
       </div>
     </div>
   );

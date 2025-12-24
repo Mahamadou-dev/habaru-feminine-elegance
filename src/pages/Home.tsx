@@ -167,7 +167,7 @@ const Home = (): JSX.Element => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <BlogCard
-                  id={parseInt(post.$id.substring(0, 8), 16)}
+                  id={post.$id}
                   title={post.title}
                   excerpt={post.excerpt}
                   image={post.imageUrl || ''}
@@ -197,7 +197,7 @@ const Home = (): JSX.Element => {
       </section>
 
       {/* CTA Section améliorée */}
-      <section className="container mx-auto px-4 py-20">
+      <section id="newsletter" className="container mx-auto px-4 py-20">
         <NewsletterSection />
       </section>
     </div>

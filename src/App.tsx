@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import Analytics from "./pages/admin/Analytics";
 import PostEditor from "./pages/admin/PostEditor";
+import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const AppContent = () => {
       {/* Public routes with layout */}
       <Route path="/" element={<Layout><Home /></Layout>} />
       <Route path="/blog" element={<Layout><Blog /></Layout>} />
+      <Route path="/post/:id" element={<Layout><PostDetail /></Layout>} />
       <Route path="/about" element={<Layout><About /></Layout>} />
 
       {/* Auth route without layout */}

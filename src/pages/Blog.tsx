@@ -72,7 +72,7 @@ const Blog = (): JSX.Element => {
               {featuredPosts.slice(0, 2).map((post, index) => (
                 <div key={post.$id} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                   <BlogCard
-                    id={parseInt(post.$id.substring(0, 8), 16)}
+                    id={post.$id}
                     title={post.title}
                     excerpt={post.excerpt}
                     image={post.imageUrl || ''}
@@ -187,7 +187,7 @@ const Blog = (): JSX.Element => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <BlogCard
-                  id={parseInt(post.$id.substring(0, 8), 16)}
+                  id={post.$id}
                   title={post.title}
                   excerpt={post.excerpt}
                   image={post.imageUrl || ''}
