@@ -113,18 +113,18 @@ const AdminDashboard: React.FC = () => {
                             Bienvenue, <span className="text-primary font-semibold">{user?.name || user?.email}</span>
                         </p>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap gap-3">
                         <Button
                             onClick={() => navigate('/admin/analytics')}
                             variant="outline"
-                            className="rounded-2xl border-2 border-primary/30 hover:bg-primary/10"
+                            className="rounded-2xl border-2 border-primary/30 hover:bg-primary/10 flex-1 sm:flex-none"
                         >
                             <TrendingUp className="mr-2 h-5 w-5" />
                             Statistiques
                         </Button>
                         <Button
                             onClick={() => navigate('/admin/post/new')}
-                            className="gradient-primary text-white rounded-2xl shadow-soft hover:shadow-elegant transition-all"
+                            className="gradient-primary text-white rounded-2xl shadow-soft hover:shadow-elegant transition-all flex-1 sm:flex-none"
                         >
                             <PlusCircle className="mr-2 h-5 w-5" />
                             Nouveau post
@@ -132,10 +132,10 @@ const AdminDashboard: React.FC = () => {
                         <Button
                             onClick={handleLogout}
                             variant="outline"
-                            className="rounded-2xl border-2"
+                            className="rounded-2xl border-2 flex-1 sm:flex-none"
                         >
                             <LogOut className="mr-2 h-5 w-5" />
-                            Déconnexion
+                            <span className="hidden sm:inline">Déconnexion</span>
                         </Button>
                     </div>
                 </div>
@@ -292,11 +292,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, onEdit, onDelete }) => {
     };
 
     return (
-        <div className="glass-card rounded-3xl p-6 border border-glass-border shadow-soft hover:shadow-elegant transition-all group">
-            <div className="flex gap-6">
+        <div className="glass-card rounded-3xl p-4 sm:p-6 border border-glass-border shadow-soft hover:shadow-elegant transition-all group">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                 {/* Image */}
                 {post.imageUrl && (
-                    <div className="flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
+                    <div className="flex-shrink-0 w-full sm:w-32 h-48 sm:h-32 rounded-2xl overflow-hidden">
                         <img
                             src={post.imageUrl}
                             alt={post.title}
@@ -335,12 +335,12 @@ const PostCard: React.FC<PostCardProps> = ({ post, onEdit, onDelete }) => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                         <Button
                             onClick={onEdit}
                             size="sm"
                             variant="outline"
-                            className="rounded-xl"
+                            className="rounded-xl flex-1 sm:flex-none"
                         >
                             <Edit className="h-4 w-4 mr-1" />
                             Modifier
@@ -349,7 +349,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onEdit, onDelete }) => {
                             onClick={onDelete}
                             size="sm"
                             variant="outline"
-                            className="rounded-xl text-red-600 border-red-200 hover:bg-red-50"
+                            className="rounded-xl text-red-600 border-red-200 hover:bg-red-50 flex-1 sm:flex-none"
                         >
                             <Trash2 className="h-4 w-4 mr-1" />
                             Supprimer

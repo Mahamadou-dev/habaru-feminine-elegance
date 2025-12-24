@@ -98,7 +98,7 @@ const PostDetail = () => {
                 </div>
 
                 {/* Hero Image */}
-                <div className="relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-12 shadow-elegant animate-fade-in">
+                <div className="relative h-[250px] sm:h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-8 md:mb-12 shadow-elegant animate-fade-in">
                     <img
                         src={post.imageUrl || ""}
                         alt={post.title}
@@ -129,7 +129,7 @@ const PostDetail = () => {
                         </div>
                     </div>
 
-                    <h1 className="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold mb-6 md:mb-8 leading-tight">
                         {post.title}
                     </h1>
 
@@ -155,15 +155,15 @@ const PostDetail = () => {
                 <div className="mt-16 pt-8 border-t border-glass-border flex flex-col items-center text-center animate-fade-in" style={{ animationDelay: "0.3s" }}>
                     <h3 className="text-2xl font-display font-bold mb-4 text-primary">Cet article vous a plu ?</h3>
                     <p className="text-muted-foreground mb-8 max-w-md"> Partagez-le avec vos amis ou sauvegardez-le pour plus tard !</p>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
                         <Button
-                            className="gradient-primary text-white rounded-2xl px-10 py-6 font-semibold shadow-elegant hover:scale-105 transition-all"
+                            className="w-full sm:w-auto gradient-primary text-white rounded-2xl px-10 py-6 font-semibold shadow-elegant hover:scale-105 transition-all"
                             onClick={handleShare}
                         >
                             Partager l'article
                         </Button>
-                        <Link to="/#newsletter">
-                            <Button variant="outline" className="rounded-2xl px-10 py-6 font-semibold border-2 border-primary text-primary hover:bg-primary/5 transition-all">
+                        <Link to="/#newsletter" className="w-full sm:w-auto">
+                            <Button variant="outline" className="w-full rounded-2xl px-10 py-6 font-semibold border-2 border-primary text-primary hover:bg-primary/5 transition-all">
                                 S'abonner à la newsletter
                             </Button>
                         </Link>

@@ -14,9 +14,9 @@ const Navigation = () => {
   const location = useLocation();
   const { theme, colorTheme, fontFamily, toggleTheme, setColorTheme, setFontFamily } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+
   const isActive = (path: string) => location.pathname === path;
-  
+
   const colorThemes = [
     { id: "rose" as const, name: "Rose Pastel", color: "bg-[hsl(350,85%,75%)]" },
     { id: "lavender" as const, name: "Lavande", color: "bg-[hsl(280,60%,70%)]" },
@@ -42,20 +42,14 @@ const Navigation = () => {
     if (isMobileMenuOpen) {
       // Bloquer le scroll du body
       document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
     } else {
       // Réactiver le scroll
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
     }
 
     // Cleanup
     return () => {
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
     };
   }, [isMobileMenuOpen]);
 
@@ -74,127 +68,131 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-card shadow-soft backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-              <h1 className="text-xl sm:text-2xl font-display font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Habaru Blog
-              </h1>
-            </Link>
+      <nav className="fixed top-0 left-0 right-0 z-[100] h-16 glass-card shadow-soft backdrop-blur-md border-b border-glass-border">
+        <div className="container mx-auto px-4 h-full flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2 flex-shrink-0 relative z-[101]">
+            <h1 className="text-xl sm:text-2xl font-display font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Habaru Media
+            </h1>
+          </Link>
 
-            {/* Navigation desktop */}
-            <div className="hidden md:flex items-center space-x-8 mx-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`relative px-3 py-2 transition-colors hover:text-primary ${
-                    isActive(item.path) 
-                      ? "text-primary font-medium" 
-                      : "text-foreground"
+          {/* Navigation desktop */}
+          <div className="hidden md:flex items-center space-x-8 mx-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`relative px-3 py-2 transition-colors hover:text-primary ${isActive(item.path)
+                  ? "text-primary font-medium"
+                  : "text-foreground"
                   }`}
-                >
-                  {item.label}
-                  {isActive(item.path) && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 gradient-primary rounded-full" />
-                  )}
-                </Link>
-              ))}
-            </div>
+              >
+                {item.label}
+                {isActive(item.path) && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 gradient-primary rounded-full" />
+                )}
+              </Link>
+            ))}
+          </div>
 
-            {/* Contrôles */}
-            <div className="flex items-center space-x-1 sm:space-x-2">
-              {/* Contrôles desktop */}
-              <div className="hidden sm:flex items-center space-x-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleTheme}
-                  className="rounded-full hover:bg-primary/10"
-                  aria-label={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
-                >
-                  {theme === "dark" ? (
-                    <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
-                  ) : (
-                    <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
-                  )}
-                </Button>
-                
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="rounded-full hover:bg-primary/10"
-                      aria-label="Changer le thème de couleur"
-                    >
-                      <Palette className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="glass-card min-w-[180px]">
-                    {colorThemes.map((themeOption) => (
-                      <DropdownMenuItem 
-                        key={themeOption.id} 
-                        onClick={() => setColorTheme(themeOption.id)}
-                        className="flex items-center space-x-2"
-                      >
-                        <div className={`w-4 h-4 rounded-full ${themeOption.color}`} />
-                        <span>{themeOption.name}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="rounded-full hover:bg-primary/10"
-                      aria-label="Changer la police"
-                    >
-                      <Type className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="glass-card min-w-[200px]">
-                    {fonts.map((font) => (
-                      <DropdownMenuItem 
-                        key={font.id} 
-                        onClick={() => setFontFamily(font.id)}
-                        className={font.className}
-                      >
-                        {font.name}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              {/* Bouton menu mobile */}
+          {/* Contrôles */}
+          <div className="flex items-center space-x-1 sm:space-x-2 relative z-[101]">
+            {/* Contrôles desktop */}
+            <div className="hidden sm:flex items-center space-x-1">
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={toggleMobileMenu}
-                className="rounded-full hover:bg-primary/10 md:hidden"
-                aria-label="Menu principal"
+                onClick={toggleTheme}
+                className="rounded-full hover:bg-primary/10"
+                aria-label={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
               >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" />
+                {theme === "dark" ? (
+                  <Sun className="h-5 w-5" />
                 ) : (
-                  <Menu className="h-6 w-6" />
+                  <Moon className="h-5 w-5" />
                 )}
               </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full hover:bg-primary/10"
+                    aria-label="Changer le thème de couleur"
+                  >
+                    <Palette className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="glass-card min-w-[180px]">
+                  {colorThemes.map((themeOption) => (
+                    <DropdownMenuItem
+                      key={themeOption.id}
+                      onClick={() => setColorTheme(themeOption.id)}
+                      className="flex items-center space-x-2"
+                    >
+                      <div className={`w-4 h-4 rounded-full ${themeOption.color}`} />
+                      <span>{themeOption.name}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full hover:bg-primary/10"
+                    aria-label="Changer la police"
+                  >
+                    <Type className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="glass-card min-w-[200px]">
+                  {fonts.map((font) => (
+                    <DropdownMenuItem
+                      key={font.id}
+                      onClick={() => setFontFamily(font.id)}
+                      className={font.className}
+                    >
+                      {font.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
+
+            {/* Bouton menu mobile */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleMobileMenu}
+              className="rounded-full hover:bg-primary/10 md:hidden relative z-[110]"
+              aria-label="Menu principal"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6 text-primary" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </Button>
           </div>
         </div>
+      </nav>
 
-        {/* Menu mobile overlay */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-lg z-40 overflow-y-auto">
-            <div className="container mx-auto px-4 py-6 min-h-full">
-              {/* Navigation mobile */}
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-[90]">
+          {/* Backdrop avec flou prononcé sur le reste du site */}
+          <div
+            className="absolute inset-0 bg-background/40 backdrop-blur-xl animate-in fade-in duration-300"
+            onClick={closeMobileMenu}
+          />
+
+          {/* Contenu du menu qui descend */}
+          <div className="absolute top-16 left-0 right-0 bg-background/98 border-t border-glass-border shadow-2xl animate-in slide-in-from-top duration-300 overflow-y-auto max-h-[calc(100vh-4rem)]">
+            <div className="container mx-auto px-4 py-8 pb-12">
               <nav className="space-y-4 mb-8">
                 {navItems.map((item) => {
                   const Icon = item.icon;
@@ -203,99 +201,85 @@ const Navigation = () => {
                       key={item.path}
                       to={item.path}
                       onClick={closeMobileMenu}
-                      className={`flex items-center space-x-3 p-4 rounded-2xl transition-all duration-300 ${
-                        isActive(item.path)
-                          ? "gradient-primary text-white shadow-soft"
-                          : "glass-card border border-glass-border text-foreground hover:shadow-soft"
-                      }`}
+                      className={`flex items-center space-x-4 p-4 rounded-2xl transition-all duration-300 ${isActive(item.path)
+                        ? "gradient-primary text-white shadow-lg scale-[1.02]"
+                        : "glass-card border border-glass-border text-foreground hover:bg-primary/5"
+                        }`}
                     >
-                      <Icon className="h-5 w-5" />
-                      <span className="font-medium text-lg">{item.label}</span>
+                      <div className={`p-2 rounded-xl ${isActive(item.path) ? "bg-white/20" : "bg-primary/10"}`}>
+                        <Icon className={`h-6 w-6 ${isActive(item.path) ? "text-white" : "text-primary"}`} />
+                      </div>
+                      <span className="font-semibold text-lg">{item.label}</span>
                     </Link>
                   );
                 })}
               </nav>
 
-              {/* Contrôles de thème dans le menu mobile */}
-              <div className="space-y-6 pb-8">
-                {/* Sélecteur de thème de couleur */}
-                <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                    Thème de couleur
+              <div className="space-y-8">
+                {/* Themes */}
+                <div className="space-y-4">
+                  <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-1">
+                    Thème Visuel
                   </h3>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-3">
                     {colorThemes.map((themeOption) => (
                       <button
                         key={themeOption.id}
                         onClick={() => {
                           setColorTheme(themeOption.id);
-                          closeMobileMenu();
                         }}
-                        className={`flex flex-col items-center space-y-2 p-3 rounded-xl transition-all ${
-                          colorTheme === themeOption.id
-                            ? "gradient-primary text-white shadow-soft"
-                            : "glass-card border border-glass-border hover:shadow-soft"
-                        }`}
+                        className={`flex flex-col items-center space-y-3 p-4 rounded-2xl transition-all ${colorTheme === themeOption.id
+                          ? "gradient-primary text-white shadow-md ring-2 ring-primary ring-offset-2 ring-offset-background"
+                          : "glass-card border border-glass-border"
+                          }`}
                       >
-                        <div className={`w-6 h-6 rounded-full ${themeOption.color} border-2 border-white/50`} />
-                        <span className="text-xs font-medium">{themeOption.name.split(' ')[0]}</span>
+                        <div className={`w-8 h-8 rounded-full ${themeOption.color} border-2 border-white shadow-inner`} />
+                        <span className="text-[10px] font-bold">{themeOption.name.split(' ')[0]}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Sélecteur de police */}
-                <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                    Police
+                {/* Fonts */}
+                <div className="space-y-4">
+                  <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-1">
+                    Typographie
                   </h3>
-                  <div className="space-y-2">
+                  <div className="grid grid-cols-1 gap-2">
                     {fonts.map((font) => (
                       <button
                         key={font.id}
-                        onClick={() => {
-                          setFontFamily(font.id);
-                          closeMobileMenu();
-                        }}
-                        className={`w-full text-left p-3 rounded-xl transition-all ${
-                          fontFamily === font.id
-                            ? "gradient-primary text-white shadow-soft"
-                            : "glass-card border border-glass-border hover:shadow-soft"
-                        } ${font.className}`}
+                        onClick={() => setFontFamily(font.id)}
+                        className={`w-full text-left p-4 rounded-2xl transition-all ${fontFamily === font.id
+                          ? "gradient-primary text-white shadow-md"
+                          : "glass-card border border-glass-border"
+                          } ${font.className}`}
                       >
-                        {font.name}
+                        <div className="flex items-center justify-between">
+                          <span className="text-base">{font.name}</span>
+                          <Type className="h-4 w-4 opacity-50" />
+                        </div>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Bouton mode sombre/clair */}
+                {/* Mode Button */}
                 <Button
-                  onClick={() => {
-                    toggleTheme();
-                    closeMobileMenu();
-                  }}
-                  className="w-full rounded-xl gradient-primary text-white shadow-soft hover:shadow-elegant transition-all"
+                  onClick={toggleTheme}
+                  className="w-full h-16 rounded-2xl gradient-primary text-white shadow-lg text-lg font-bold"
                 >
                   {theme === "dark" ? (
-                    <>
-                      <Sun className="h-4 w-4 mr-2" />
-                      Mode clair
-                    </>
+                    <><Sun className="h-6 w-6 mr-3" /> Mode Clair</>
                   ) : (
-                    <>
-                      <Moon className="h-4 w-4 mr-2" />
-                      Mode sombre
-                    </>
+                    <><Moon className="h-6 w-6 mr-3" /> Mode Sombre</>
                   )}
                 </Button>
               </div>
             </div>
           </div>
-        )}
-      </nav>
-
-      {/* Overlay pour fermer le menu - Maintenant intégré dans le menu fixe */}
+        </div>
+      )}
     </>
   );
 };

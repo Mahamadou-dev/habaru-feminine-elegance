@@ -130,28 +130,28 @@ const AnalyticsDashboard: React.FC = () => {
         <div className="min-h-screen pt-24 pb-12">
             <div className="container mx-auto px-4">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
                     <div className="flex items-center gap-4">
                         <Button
                             onClick={() => navigate('/admin/dashboard')}
                             variant="outline"
                             size="sm"
-                            className="rounded-xl"
+                            className="rounded-xl flex-shrink-0"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
                             Retour
                         </Button>
-                        <h1 className="text-4xl font-display font-bold">Statistiques</h1>
+                        <h1 className="text-3xl sm:text-4xl font-display font-bold">Statistiques</h1>
                     </div>
 
                     {/* Sélecteur d'année */}
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {availableYears.map((year) => (
                             <Button
                                 key={year}
                                 onClick={() => setSelectedYear(year)}
                                 variant={selectedYear === year ? 'default' : 'outline'}
-                                className="rounded-xl"
+                                className="rounded-xl px-3 py-1 text-sm h-9"
                             >
                                 {year}
                             </Button>
@@ -242,28 +242,28 @@ const AnalyticsDashboard: React.FC = () => {
                 </div>
 
                 {/* Liste des abonnés */}
-                <div className="glass-card rounded-3xl p-8 border border-glass-border shadow-soft">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-2xl font-display font-bold">Abonnés Newsletter ({subscribers.length})</h2>
+                <div className="glass-card rounded-3xl p-6 sm:p-8 border border-glass-border shadow-soft">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                        <h2 className="text-2xl font-display font-bold">Abonnés ({subscribers.length})</h2>
 
                         {subscribers.length > 0 && (
-                            <div className="flex gap-2">
+                            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                                 <Button
                                     onClick={handleCopyEmails}
                                     variant="outline"
-                                    className="rounded-xl"
+                                    className="rounded-xl flex-1 sm:flex-none h-9 text-xs"
                                     size="sm"
                                 >
                                     <Mail className="h-4 w-4 mr-2" />
-                                    Copier les emails
+                                    Copier
                                 </Button>
                                 <Button
                                     onClick={handleExportCSV}
-                                    className="gradient-primary text-white rounded-xl"
+                                    className="gradient-primary text-white rounded-xl flex-1 sm:flex-none h-9 text-xs"
                                     size="sm"
                                 >
                                     <Calendar className="h-4 w-4 mr-2" />
-                                    Exporter CSV
+                                    Exporter
                                 </Button>
                             </div>
                         )}
@@ -279,14 +279,14 @@ const AnalyticsDashboard: React.FC = () => {
                             {subscribers.map((subscriber) => (
                                 <div
                                     key={subscriber.$id}
-                                    className="flex items-center justify-between p-4 rounded-2xl border border-glass-border hover:shadow-soft transition-all"
+                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl border border-glass-border hover:shadow-soft transition-all gap-4"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex-shrink-0 flex items-center justify-center">
                                             <Mail className="h-5 w-5 text-primary" />
                                         </div>
-                                        <div>
-                                            <p className="font-medium">{subscriber.email}</p>
+                                        <div className="min-w-0">
+                                            <p className="font-medium truncate max-w-[200px] sm:max-w-none">{subscriber.email}</p>
                                             <p className="text-xs text-muted-foreground flex items-center gap-1">
                                                 <Calendar className="h-3 w-3" />
                                                 {new Date(subscriber.subscribedAt).toLocaleDateString('fr-FR', {
@@ -297,7 +297,7 @@ const AnalyticsDashboard: React.FC = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 self-end sm:self-center">
                                         {subscriber.active && (
                                             <span className="text-xs px-3 py-1 rounded-full bg-green-100 text-green-700">
                                                 Actif

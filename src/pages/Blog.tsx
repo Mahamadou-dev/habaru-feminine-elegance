@@ -25,7 +25,7 @@ const Blog = (): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
-  const categories: string[] = ["Tous", "Beauté", "Mode", "Lifestyle", "Bien-être", "Conseils"];
+  const categories = ["Tous", 'Investigation', 'Reportage', 'Actualité', 'Portrait', 'Brève', 'Filet', 'Sport', 'Société', 'Santé', 'Économie', 'Politique'];
 
   // Récupérer les posts depuis Appwrite
   const { data: allPosts, isLoading } = usePosts({ published: true });
@@ -52,10 +52,10 @@ const Blog = (): JSX.Element => {
           </div>
 
           <div className="relative z-10">
-            <h1 className="text-6xl md:text-7xl font-display font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Le Blog
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Explorez mes articles sur la beauté, la mode, le bien-être et bien plus encore
             </p>
           </div>
@@ -140,7 +140,7 @@ const Blog = (): JSX.Element => {
               <Badge
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
-                className={`cursor-pointer px-6 py-3 rounded-2xl transition-all text-sm font-medium ${selectedCategory === category
+                className={`cursor-pointer px-4 sm:px-6 py-2 sm:py-3 rounded-2xl transition-all text-xs sm:text-sm font-medium ${selectedCategory === category
                   ? "gradient-primary text-white shadow-soft"
                   : "border-primary/30 hover:border-primary hover:bg-primary/10 hover:shadow-soft"
                   }`}

@@ -34,34 +34,16 @@ const Footer = () => {
               <Twitter className="h-5 w-5" />
             </a>
           </div>
-          
-<div className="flex justify-center items-center py-4 border-t">
-  <p className="text-sm text-muted-foreground flex items-center gap-1">
-    <span>© {new Date().getFullYear()} Habaru Blog.</span>
-    <span>Fait avec</span>
-    <Heart className="h-4 w-4 text-rose-500 fill-rose-500 transition-transform duration-300 hover:scale-125" />
-    <span>par</span>
-    <span className="font-semibold">
-      <a 
-        href="https://gremah-tech.vercel.app" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-primary hover:text-primary/80 transition-colors"
-      >
-        GremahTech
-      </a>
-      {" "} & {" "}
-      <a 
-        href="https://geo-concept.vercel.app" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-primary hover:text-primary/80 transition-colors"
-      >
-        Géo-Concept-Tech
-      </a>
-    </span>
-  </p>
-</div>
+
+          <div className="flex flex-col items-center py-4 border-t w-full">
+            <p className="text-sm text-muted-foreground mb-4">
+              Contact: <a href="mailto:kisskalilou@gmail.com" className="text-primary hover:underline">kisskalilou@gmail.com</a>
+            </p>
+            <p className="text-sm text-muted-foreground flex items-center gap-1">
+              <span>© {new Date().getFullYear()} Habaru Media.</span>
+              <span>L'information en toute transparence.</span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

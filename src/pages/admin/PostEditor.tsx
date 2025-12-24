@@ -41,7 +41,7 @@ const PostEditor: React.FC = () => {
     const [currentImageId, setCurrentImageId] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const categories = ['Beauté', 'Mode', 'Lifestyle', 'Bien-être', 'Conseils'];
+    const categories = ['Investigation', 'Reportage', 'Actualité', 'Portrait', 'Brève', 'Filet', 'Sport', 'Société', 'Santé', 'Économie', 'Politique'];
 
     // Load existing post data
     useEffect(() => {
@@ -137,18 +137,18 @@ const PostEditor: React.FC = () => {
         <div className="min-h-screen pt-24 pb-12">
             <div className="container mx-auto px-4 max-w-4xl">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                     <div className="flex items-center gap-4">
                         <Button
                             onClick={() => navigate('/admin/dashboard')}
                             variant="outline"
                             size="sm"
-                            className="rounded-xl"
+                            className="rounded-xl flex-shrink-0"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
                             Retour
                         </Button>
-                        <h1 className="text-3xl font-display font-bold">
+                        <h1 className="text-2xl sm:text-3xl font-display font-bold">
                             {isEditMode ? 'Modifier le post' : 'Nouveau post'}
                         </h1>
                     </div>
@@ -204,22 +204,27 @@ const PostEditor: React.FC = () => {
                             </p>
                         </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="category" className="text-sm font-medium">
+                        <div className="space-y-3">
+                            <Label className="text-sm font-medium">
                                 Catégorie *
                             </Label>
-                            <Select value={category} onValueChange={setCategory}>
-                                <SelectTrigger className="rounded-2xl border-primary/20">
-                                    <SelectValue placeholder="Sélectionnez une catégorie" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {categories.map((cat) => (
-                                        <SelectItem key={cat} value={cat}>
-                                            {cat}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                            <div className="flex flex-wrap gap-2">
+                                {categories.map((cat) => (
+                                    <button
+                                        key={cat}
+                                        type="button"
+                                        onClick={() => setCategory(cat)}
+                                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all border-2 ${category === cat
+                                            ? "gradient-primary text-white border-transparent shadow-soft"
+                                            : "border-primary/20 text-muted-foreground hover:border-primary/40"
+                                            }`}
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+                            {/* Hidden input for validation if needed */}
+                            <input type="hidden" name="category" value={category} required />
                         </div>
                     </div>
 
@@ -279,33 +284,33 @@ const PostEditor: React.FC = () => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-4 justify-end">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-end">
                         <Button
                             type="button"
                             onClick={(e) => handleSubmit(e, false)}
                             variant="outline"
-                            className="rounded-2xl"
+                            className="rounded-2xl w-full sm:w-auto order-2 sm:order-1"
                             disabled={isSubmitting}
                         >
                             <Save className="mr-2 h-4 w-4" />
-                            Sauvegarder en brouillon
+                            <span className="flex-1 text-center">Sauvegarder en brouillon</span>
                         </Button>
                         <Button
                             type="button"
                             onClick={(e) => handleSubmit(e, true)}
-                            className="gradient-primary text-white rounded-2xl shadow-soft"
+                            className="gradient-primary text-white rounded-2xl shadow-soft w-full sm:w-auto order-1 sm:order-2"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? (
-                                <div className="flex items-center">
+                                <div className="flex items-center justify-center w-full">
                                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                                    Enregistrement...
+                                    <span>Enregistrement...</span>
                                 </div>
                             ) : (
-                                <>
+                                <div className="flex items-center justify-center w-full">
                                     <Eye className="mr-2 h-4 w-4" />
-                                    Publier
-                                </>
+                                    <span>Publier</span>
+                                </div>
                             )}
                         </Button>
                     </div>

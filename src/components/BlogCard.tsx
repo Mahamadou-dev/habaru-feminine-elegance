@@ -30,8 +30,8 @@ const BlogCard: FC<BlogCardProps> = ({
   if (layout === "horizontal") {
     return (
       <div className="glass-card rounded-3xl p-6 shadow-soft hover:shadow-elegant transition-all duration-500 hover:-translate-y-2 border border-glass-border group animate-fade-in">
-        <div className="flex gap-6">
-          <div className="flex-shrink-0 w-48 h-48 rounded-2xl overflow-hidden">
+        <div className="flex flex-col sm:flex-row gap-6">
+          <div className="flex-shrink-0 w-full sm:w-48 h-48 rounded-2xl overflow-hidden">
             <img
               src={image}
               alt={title}

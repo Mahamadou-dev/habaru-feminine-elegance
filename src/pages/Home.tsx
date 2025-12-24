@@ -73,27 +73,27 @@ const Home = (): JSX.Element => {
 
         <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in">
           <div className="inline-flex items-center space-x-2 glass-card rounded-2xl px-6 py-3 mb-8 border border-glass-border shadow-soft">
-            <Star className="h-5 w-5 text-primary" fill="currentColor" />
-            <span className="text-sm font-semibold text-primary">Nouveaux articles chaque semaine</span>
+            <TrendingUp className="h-5 w-5 text-primary" fill="currentColor" />
+            <span className="text-sm font-semibold text-primary">L'information en temps réel</span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-display font-bold mb-8 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight">
-            Habaru Blog
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight text-shadow-glow">
+            Habaru Media
           </h1>
-          <p className="text-2xl md:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
-            Votre espace de <span className="text-primary font-semibold">douceur</span> dédié à la beauté, au bien-être et à l'inspiration au quotidien
+          <p className="text-lg sm:text-2xl md:text-3xl text-muted-foreground mb-10 max-w-4xl mx-auto leading-relaxed">
+            L'information au <span className="text-primary font-semibold">cœur</span> de l'action : investigation, politique, et décryptage de l'actualité
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link to="/blog">
-              <Button className="gradient-primary text-white rounded-2xl px-10 py-7 text-lg font-semibold shadow-elegant hover:shadow-2xl hover:scale-105 transition-all duration-300">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-md mx-auto sm:max-w-none">
+            <Link to="/blog" className="w-full sm:w-auto">
+              <Button className="w-full gradient-primary text-white rounded-2xl px-10 py-7 text-lg font-semibold shadow-elegant hover:shadow-2xl hover:scale-105 transition-all duration-300">
                 Explorer les articles
                 <ArrowRight className="ml-3 h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/about">
-              <Button variant="outline" className="rounded-2xl px-10 py-7 text-lg font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
-                Découvrir mon histoire
+            <Link to="/about" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full rounded-2xl px-10 py-7 text-lg font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                Notre Engagement
               </Button>
             </Link>
           </div>
@@ -111,7 +111,7 @@ const Home = (): JSX.Element => {
       </section>
 
       {/* Stats Section */}
-      <section className="container mx-auto px-4 py-20 -mt-20 relative z-20">
+      <section className="container mx-auto px-4 py-12 md:py-20 -mt-10 md:-mt-20 relative z-20">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <div
@@ -130,18 +130,18 @@ const Home = (): JSX.Element => {
       </section>
 
       {/* Featured Posts Section améliorée */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-12 md:py-20">
         <div className="text-center mb-16 animate-fade-in">
           <div className="inline-flex items-center space-x-2 mb-4">
             <div className="w-12 h-1 gradient-primary rounded-full"></div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">À la Une</span>
             <div className="w-12 h-1 gradient-primary rounded-full"></div>
           </div>
-          <h2 className="text-5xl font-display font-bold mb-6">
-            Articles Populaires
+          <h2 className="text-3xl sm:text-5xl font-display font-bold mb-6">
+            À la Une
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Découvrez mes dernières inspirations et conseils pour cultiver la beauté au quotidien
+            Nos dernières investigations et reportages exclusifs sur les sujets qui comptent
           </p>
         </div>
 
@@ -187,8 +187,8 @@ const Home = (): JSX.Element => {
 
 
         <div className="text-center">
-          <Link to="/blog">
-            <Button variant="outline" className="rounded-2xl px-12 py-6 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all group">
+          <Link to="/blog" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto rounded-2xl px-12 py-6 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all group">
               Voir tous les articles
               <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -197,7 +197,7 @@ const Home = (): JSX.Element => {
       </section>
 
       {/* CTA Section améliorée */}
-      <section id="newsletter" className="container mx-auto px-4 py-20">
+      <section id="newsletter" className="container mx-auto px-4 py-12 md:py-20">
         <NewsletterSection />
       </section>
     </div>
@@ -252,7 +252,7 @@ const NewsletterSection: React.FC = () => {
   };
 
   return (
-    <div className="relative rounded-3xl p-16 gradient-secondary shadow-elegant overflow-hidden">
+    <div className="relative rounded-3xl p-8 sm:p-16 gradient-secondary shadow-elegant overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
@@ -265,11 +265,11 @@ const NewsletterSection: React.FC = () => {
           <span className="text-white font-semibold">Rejoignez-nous</span>
         </div>
 
-        <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-white">
-          Rejoignez la Communauté Habaru
+        <h2 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6 text-white text-balance">
+          Restez informé avec Habaru
         </h2>
-        <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Recevez chaque semaine des inspirations, des conseils beauté exclusifs et des moments de douceur directement dans votre boîte mail
+        <p className="text-lg md:text-xl text-white/90 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed">
+          Recevez nos décryptages, enquêtes exclusives et l'essentiel de l'actualité directement dans votre boîte mail chaque matin
         </p>
 
         <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
