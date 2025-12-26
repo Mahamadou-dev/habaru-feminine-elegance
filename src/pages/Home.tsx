@@ -41,8 +41,8 @@ const Home = (): JSX.Element => {
   const stats: StatItem[] = [
     { icon: BookOpen, number: "150+", label: "Articles Publiés" },
     { icon: Users, number: "50K+", label: "Lecteurs Mensuels" },
-    { icon: Star, number: "4.9", label: "Note Moyenne" },
-    { icon: TrendingUp, number: "3+", label: "Années d'Expérience" },
+    { icon: Star, number: "45+", label: "Sources Vérifiées" },
+    { icon: TrendingUp, number: "5+", label: "Prix Media" },
   ];
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);

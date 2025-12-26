@@ -139,7 +139,7 @@ const PostDetail = () => {
                         </div>
                         <div>
                             <div className="font-semibold">Habaru Team</div>
-                            <div className="text-sm text-muted-foreground">Expert Beauté & Lifestyle</div>
+                            <div className="text-sm text-muted-foreground">Journaliste Reporter / Enquêteur</div>
                         </div>
                     </div>
                 </div>

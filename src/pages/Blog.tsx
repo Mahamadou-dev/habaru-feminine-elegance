@@ -56,7 +56,7 @@ const Blog = (): JSX.Element => {
               Le Blog
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Explorez mes articles sur la beauté, la mode, le bien-être et bien plus encore
+              Découvrez nos enquêtes, reportages et analyses sur les enjeux qui façonnent notre monde
             </p>
           </div>
         </div>
