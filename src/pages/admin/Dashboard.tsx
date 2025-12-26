@@ -325,7 +325,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onEdit, onDelete }) => {
                         {post.featured && (
                             <Badge variant="outline" className="border-primary/30 text-primary">
                                 <Star className="h-3 w-3 mr-1" fill="currentColor" />
-                                Featured
+                                À la une
                             </Badge>
                         )}
                         <div className="flex items-center text-sm text-muted-foreground">

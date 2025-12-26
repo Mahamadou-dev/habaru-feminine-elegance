@@ -253,10 +253,10 @@ const PostEditor: React.FC = () => {
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
                                 <Label htmlFor="featured" className="text-sm font-medium">
-                                    Post mis en avant
+                                    Mettre ce post à la une
                                 </Label>
                                 <p className="text-xs text-muted-foreground">
-                                    Afficher ce post dans la section "Articles Populaires"
+                                    Afficher ce post dans le slider de la page d'accueil
                                 </p>
                             </div>
                             <Switch

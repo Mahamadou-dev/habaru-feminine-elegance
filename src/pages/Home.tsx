@@ -7,8 +7,11 @@ import { Link } from "react-router-dom";
 import { usePosts } from "@/hooks/usePosts";
 import { subscriberService } from "@/services/subscriberService";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
 import heroImage from "@/assets/hero-home.jpg";
+import { Badge } from "@/components/ui/badge";
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+import { useCallback, useEffect, useState } from "react";
 
 
 interface StatItem {
@@ -32,7 +35,7 @@ const Home = (): JSX.Element => {
   // Récupérer les posts featured depuis Appwrite
   const { data: allPosts, isLoading } = usePosts({ published: true });
 
-  const featuredPosts = allPosts?.filter(post => post.featured).slice(0, 3) || [];
+  const featuredPosts = allPosts?.filter(post => post.featured) || [];
 
 
   const stats: StatItem[] = [
@@ -42,159 +45,149 @@ const Home = (): JSX.Element => {
     { icon: TrendingUp, number: "3+", label: "Années d'Expérience" },
   ];
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+  }, [emblaApi, onSelect]);
+
+  useEffect(() => {
+    if (emblaApi) emblaApi.reInit();
+  }, [emblaApi, featuredPosts.length]);
+
+  const scrollTo = useCallback((index: number) => {
+    if (emblaApi) emblaApi.scrollTo(index);
+  }, [emblaApi]);
+
   return (
     <div className="min-h-screen">
-      {/* Hero Section améliorée */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt="Hero"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-background/40 via-background/30 to-background/90" />
-
-          {/* Effets de particules */}
-          <div className="absolute inset-0 opacity-30">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-2 h-2 bg-primary rounded-full animate-float"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${5 + Math.random() * 5}s`
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in">
-          <div className="inline-flex items-center space-x-2 glass-card rounded-2xl px-6 py-3 mb-8 border border-glass-border shadow-soft">
-            <TrendingUp className="h-5 w-5 text-primary" fill="currentColor" />
-            <span className="text-sm font-semibold text-primary">L'information en temps réel</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight text-shadow-glow">
-            Habaru Media
-          </h1>
-          <p className="text-lg sm:text-2xl md:text-3xl text-muted-foreground mb-10 max-w-4xl mx-auto leading-relaxed">
-            L'information au <span className="text-primary font-semibold">cœur</span> de l'action : investigation, politique, et décryptage de l'actualité
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-md mx-auto sm:max-w-none">
-            <Link to="/blog" className="w-full sm:w-auto">
-              <Button className="w-full gradient-primary text-white rounded-2xl px-10 py-7 text-lg font-semibold shadow-elegant hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                Explorer les articles
-                <ArrowRight className="ml-3 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to="/about" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full rounded-2xl px-10 py-7 text-lg font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
-                Notre Engagement
-              </Button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Scroll indicator amélioré */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-sm text-primary font-semibold">Scroll</span>
-            <div className="w-6 h-10 rounded-full border-2 border-primary/30 flex items-start justify-center p-2">
-              <div className="w-1.5 h-3 bg-primary rounded-full animate-pulse" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="container mx-auto px-4 py-12 md:py-20 -mt-10 md:-mt-20 relative z-20">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="glass-card rounded-3xl p-8 text-center border border-glass-border shadow-soft hover:shadow-elegant transition-all duration-500 hover:-translate-y-2 animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-soft">
-                <stat.icon className="h-8 w-8 text-white" />
-              </div>
-              <div className="text-3xl font-display font-bold text-primary mb-2">{stat.number}</div>
-              <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Posts Section améliorée */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-flex items-center space-x-2 mb-4">
-            <div className="w-12 h-1 gradient-primary rounded-full"></div>
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">À la Une</span>
-            <div className="w-12 h-1 gradient-primary rounded-full"></div>
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-display font-bold mb-6">
-            À la Une
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Nos dernières investigations et reportages exclusifs sur les sujets qui comptent
-          </p>
-        </div>
-
+      {/* Premium Hero Slider Section */}
+      <section className="relative h-[85vh] sm:h-screen min-h-[600px] overflow-hidden bg-black">
         {isLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="glass-card rounded-3xl overflow-hidden shadow-soft border border-glass-border animate-pulse">
-                <div className="w-full h-64 bg-muted"></div>
-                <div className="p-6 space-y-4">
-                  <div className="h-4 bg-muted rounded w-3/4"></div>
-                  <div className="h-4 bg-muted rounded w-1/2"></div>
-                  <div className="h-20 bg-muted rounded"></div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <div className="w-full h-full bg-muted animate-pulse" />
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {featuredPosts.map((post, index) => (
-              <div
-                key={post.$id}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <BlogCard
-                  id={post.$id}
-                  title={post.title}
-                  excerpt={post.excerpt}
-                  image={post.imageUrl || ''}
-                  category={post.category}
-                  date={new Date(post.$createdAt).toLocaleDateString('fr-FR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-                  readTime="5 min"
-                  featured={post.featured}
-                />
-              </div>
-            ))}
+          <div className="embla h-full overflow-hidden" ref={emblaRef}>
+            <div className="embla__container flex h-full">
+              {featuredPosts.map((post) => (
+                <div key={post.$id} className="embla__slide relative flex-[0_0_100%] h-full">
+                  {/* Backdrop Image */}
+                  <img
+                    src={post.imageUrl || heroImage}
+                    alt={post.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  {/* High-end Overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 z-10" />
+
+                  {/* Decorative Glass Overlay for Content */}
+                  <div className="absolute inset-0 z-20 flex items-center pt-16 md:pt-0">
+                    <div className="container mx-auto px-4 sm:px-6">
+                      <div className="max-w-[95%] sm:max-w-4xl animate-fade-in-up">
+                        <div className="inline-flex items-center space-x-2 glass-card rounded-full px-4 py-1.5 mb-6 border border-white/10 shadow-soft backdrop-blur-md">
+                          <TrendingUp className="h-3.5 w-3.5 text-primary" fill="currentColor" />
+                          <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-[0.2em]">À la Une</span>
+                        </div>
+
+                        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-extrabold text-white mb-6 leading-[1.15] text-shadow-elegant">
+                          {post.title}
+                        </h1>
+
+                        <p className="text-base sm:text-lg md:text-xl text-white/70 mb-8 sm:mb-10 max-w-2xl leading-relaxed font-light line-clamp-2 sm:line-clamp-3">
+                          {post.excerpt}
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row items-center gap-6">
+                          <Link to={`/post/${post.$id}`}>
+                            <Button className="group relative overflow-hidden gradient-primary text-white rounded-xl px-8 sm:px-10 py-6 sm:py-7 text-base sm:text-lg font-bold shadow-elegant hover:shadow-2xl hover:scale-105 transition-all duration-500">
+                              <span className="relative z-10 flex items-center">
+                                Lire l'article
+                                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-2 transition-transform duration-300" />
+                              </span>
+                              {/* Hover Glow Effect */}
+                              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                            </Button>
+                          </Link>
+
+                          <div className="flex items-center gap-3 text-white/50 text-xs sm:text-sm font-medium">
+                            <Badge className="bg-white/5 text-white border-white/10 backdrop-blur-sm px-3 py-1 text-[10px] sm:text-xs">
+                              {post.category}
+                            </Badge>
+                            <span className="hidden sm:inline opacity-30">|</span>
+                            <span>{new Date(post.$createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
+        {/* Dynamic Navigation Indicators */}
+        <div className="absolute bottom-12 left-0 right-0 z-30">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between">
+              <div className="flex gap-2 sm:gap-3">
+                {featuredPosts.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => scrollTo(index)}
+                    className="group relative h-1 transition-all duration-300"
+                    style={{ width: selectedIndex === index ? '48px' : '24px' }}
+                  >
+                    <div className={`absolute inset-0 rounded-full transition-colors duration-500 ${selectedIndex === index ? 'bg-primary' : 'bg-white/10 group-hover:bg-white/30'}`} />
+                  </button>
+                ))}
+              </div>
 
-        <div className="text-center">
-          <Link to="/blog" className="w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto rounded-2xl px-12 py-6 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all group">
-              Voir tous les articles
-              <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
+              <div className="flex items-center gap-4">
+                <div className="text-white/30 font-display text-[10px] sm:text-xs tracking-[0.2em]">
+                  <span className="text-white font-bold">{String(selectedIndex + 1).padStart(2, '0')}</span>
+                  <span className="mx-2">/</span>
+                  <span>{String(featuredPosts.length).padStart(2, '0')}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* Stats Section below Hero */}
+      <section className="relative z-20 py-20 bg-background overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div
+                key={index}
+                className="glass-card rounded-3xl p-8 text-center border border-glass-border shadow-soft hover:shadow-elegant transition-all duration-500 hover:-translate-y-2 animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-soft">
+                  <stat.icon className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-3xl font-display font-bold text-primary mb-2">{stat.number}</div>
+                <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Removed Redundant Featured Posts Section as it's now in Hero */}
 
       {/* CTA Section améliorée */}
       <section id="newsletter" className="container mx-auto px-4 py-12 md:py-20">
